@@ -1,30 +1,43 @@
 addCompilerPlugin(
-  "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+  "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
 
-enablePlugins(TutPlugin)
+lazy val root = project
+  .in(file("."))
+  .enablePlugins(TutPlugin)
+  .settings(
+    publish := {},
+    publishLocal := {},
+    libraryDependencies ++=
+      "io.circe" %% "circe-generic" % "0.8.0" % "tut" ::
+        "io.circe" %% "circe-parser" % "0.8.0" % "tut" ::
+        Nil,
+    tutSourceDirectory := baseDirectory.value / "tut",
+    tutTargetDirectory := baseDirectory.value
+  )
+  .dependsOn(circeValidationJVM)
+  .aggregate(circeValidationJVM, circeValidationJS)
 
-crossScalaVersions ++=
-  "2.11.11" ::
-    scalaVersion.value ::
-    Nil
+lazy val circeValidation = crossProject
+  .in(file("."))
+  .settings(
+    crossScalaVersions ++=
+      "2.11.11" ::
+        scalaVersion.value ::
+        Nil,
+    libraryDependencies ++=
+      "io.circe" %%% "circe-core" % "0.8.0" ::
+        "io.circe" %%% "circe-generic" % "0.8.0" % "test" ::
+        "org.scalatest" %%% "scalatest" % "3.0.3" % "test" ::
+        Nil,
+    name := "circe-validation",
+    organization := "io.taig",
+    scalacOptions ++=
+      "-feature" ::
+        "-language:implicitConversions" ::
+        Nil,
+    scalaVersion := "2.12.3"
+  )
 
-libraryDependencies ++=
-  "io.circe" %% "circe-core" % "0.8.0" ::
-    "io.circe" %% "circe-generic" % "0.8.0" % "test" ::
-    "org.scalatest" %% "scalatest" % "3.0.3" % "test" ::
-    "io.circe" %% "circe-generic" % "0.8.0" % "tut" ::
-    "io.circe" %% "circe-parser" % "0.8.0" % "tut" ::
-    Nil
+lazy val circeValidationJVM = circeValidation.jvm
 
-name := "circe-validation"
-
-organization := "io.taig"
-
-scalacOptions ++=
-  "-feature" ::
-    "-language:implicitConversions" ::
-    Nil
-
-scalaVersion := "2.12.3"
-
-tutTargetDirectory := baseDirectory.value
+lazy val circeValidationJS = circeValidation.js

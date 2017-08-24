@@ -1,7 +1,6 @@
 # circe Validation
 
-> Use cats Validated to create (Accumulating) circe Decoders Edit
-  Add topics
+> Use cats Validated to create (Accumulating) circe Decoders
 
 ## Installation
 
@@ -37,27 +36,26 @@ object Validation {
     else valid(value)
 }
 
-case class Name(value: String) extends AnyVal; object Name {
-  def lift(value: String): ValidatedNel[String, Name] =
-    Validation.min(3)(value) map (new Name(_))
+case class Name(value: String) extends AnyVal
+case class Email(value: String) extends AnyVal
 
-  implicit val decoder: Decoder[Name] =
-    Decoder[String].verify(lift)
+def liftName(value: String): ValidatedNel[String, Name] =
+  Validation.min(3)(value) map Name
 
-  implicit val encoder: Encoder[Name] =
-    Encoder[String].contramap(_.value)
-}
+implicit val decoderName: Decoder[Name] =
+  Decoder[String].verify(liftName)
 
-case class Email(value: String) extends AnyVal; object Email {
-  def lift(value: String): ValidatedNel[String, Email] =
-    Validation.email(value) *> Validation.min(5)(value) map (new Email(_))
+implicit val encoderName: Encoder[Name] =
+  Encoder[String].contramap(_.value)
 
-  implicit val decoder: Decoder[Email] =
-    Decoder[String].verify(lift)
+def liftEmail(value: String): ValidatedNel[String, Email] =
+  Validation.email(value) *> Validation.min(5)(value) map Email
 
-  implicit val encoder: Encoder[Email] =
-    Encoder[String].contramap(_.value)
-}
+implicit val decoder: Decoder[Email] =
+  Decoder[String].verify(liftEmail)
+
+implicit val encoder: Encoder[Email] =
+  Encoder[String].contramap(_.value)
 
 @JsonCodec
 case class Person(name: Name, email: Email)
@@ -73,8 +71,8 @@ val Invalid(accumulatedDecodingFailures) = Decoder[Person].accumulating.apply(cu
 
 ```scala
 decodingFailure.show
-// res7: String = DecodingFailure at .name: min 3
+// res12: String = DecodingFailure at .name: min 3
 
 accumulatedDecodingFailures.show
-// res8: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
+// res13: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
 ```
