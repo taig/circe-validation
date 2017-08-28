@@ -2,9 +2,15 @@
 
 > Use cats Validated to create (Accumulating) circe Decoders
 
+
+
+
 ## Installation
 
-The project hasn't been published yet.
+
+```
+libraryDependencies += "io.taig" %% "circe-validation" % "0.1.0"
+```
 
 ## About
 
@@ -60,8 +66,8 @@ val Invalid(accumulatedDecodingFailures) = Decoder[Person].accumulating.apply(cu
 
 ```scala
 decodingFailure.show
-// res8: String = DecodingFailure at .name: min 3
+// res9: String = DecodingFailure at .name: min 3
 
 accumulatedDecodingFailures.show
-// res9: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
+// res10: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
 ```

@@ -2,9 +2,20 @@
 
 > Use cats Validated to create (Accumulating) circe Decoders
 
+```tut:invisible
+import io.taig.circe.validation.Build._
+```
+
 ## Installation
 
-The project hasn't been published yet.
+
+```tut:evaluated
+println {
+    s"""
+     |libraryDependencies += "$organization" %% "$normalizedName" % "$version"
+     """.stripMargin.trim
+}
+```
 
 ## About
 

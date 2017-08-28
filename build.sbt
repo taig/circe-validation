@@ -1,11 +1,16 @@
-addCompilerPlugin(
-  "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
-
 lazy val root = project
   .in(file("."))
-  .enablePlugins(TutPlugin)
+  .enablePlugins(BuildInfoPlugin, TutPlugin)
+  .settings(Settings.common)
   .settings(
+    buildInfoKeys := Seq[BuildInfoKey](
+      "normalizedName" -> (normalizedName in circeValidationJVM).value,
+      organization,
+      version),
+    buildInfoObject := "Build",
+    buildInfoPackage := "io.taig.circe.validation",
     publish := {},
+    publishArtifact := false,
     publishLocal := {},
     libraryDependencies ++=
       "io.circe" %% "circe-generic" % "0.8.0" % "tut" ::
@@ -19,23 +24,14 @@ lazy val root = project
 
 lazy val circeValidation = crossProject
   .in(file("."))
+  .settings(Settings.common)
   .settings(
-    crossScalaVersions ++=
-      "2.11.11" ::
-        scalaVersion.value ::
-        Nil,
     libraryDependencies ++=
       "io.circe" %%% "circe-core" % "0.8.0" ::
         "io.circe" %%% "circe-generic" % "0.8.0" % "test" ::
-        "org.scalatest" %%% "scalatest" % "3.0.3" % "test" ::
+        "org.scalatest" %%% "scalatest" % "3.0.4" % "test" ::
         Nil,
-    name := "circe-validation",
-    organization := "io.taig",
-    scalacOptions ++=
-      "-feature" ::
-        "-language:implicitConversions" ::
-        Nil,
-    scalaVersion := "2.12.3"
+    name := "circe-validation"
   )
 
 lazy val circeValidationJVM = circeValidation.jvm
