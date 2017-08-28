@@ -11,7 +11,7 @@ The project hasn't been published yet.
 This repository is primarily an experimental exploration of validation handling with circe. My main concerns about the current implementation are:
 
  * `ValidatingDecoder` lives in `io.circe` to override the package scoped method `decodeAccumulating`
- * Validation failures cannot be distinguished from circe's `DecodingFailures` 
+ * Validation failures cannot be distinguished from circe's `DecodingFailures`
 
 ## Usage
 
@@ -20,10 +20,9 @@ import cats.syntax.show._
 import cats.data.Validated._
 import cats.data.ValidatedNel
 import cats.syntax.cartesian._
-import io.circe.generic.JsonCodec
 import io.circe.generic.semiauto._
 import io.circe.parser._
-import io.circe.{Decoder, Encoder}
+import io.circe.Decoder
 import io.taig.circe.validation._
 
 object Validation {
@@ -38,27 +37,17 @@ object Validation {
 
 case class Name(value: String) extends AnyVal
 case class Email(value: String) extends AnyVal
+case class Person(name: Name, email: Email)
 
 def liftName(value: String): ValidatedNel[String, Name] =
   Validation.min(3)(value) map Name
 
-implicit val decoderName: Decoder[Name] =
-  Decoder[String].verify(liftName)
-
-implicit val encoderName: Encoder[Name] =
-  Encoder[String].contramap(_.value)
-
 def liftEmail(value: String): ValidatedNel[String, Email] =
   Validation.email(value) *> Validation.min(5)(value) map Email
 
-implicit val decoder: Decoder[Email] =
-  Decoder[String].verify(liftEmail)
-
-implicit val encoder: Encoder[Email] =
-  Encoder[String].contramap(_.value)
-
-@JsonCodec
-case class Person(name: Name, email: Email)
+implicit val decoderName: Decoder[Name] = Decoder[String].verify(liftName)
+implicit val decoderEmail: Decoder[Email] = Decoder[String].verify(liftEmail)
+implicit val decoderPerson: Decoder[Person] = deriveDecoder
 
 val text = """{ "name":"Qt", "email":"foo" }"""
 val Right(json) = parse(text)
