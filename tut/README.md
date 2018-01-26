@@ -27,10 +27,9 @@ This repository is primarily an experimental exploration of validation handling 
 ## Usage
 
 ```tut:silent
-import cats.syntax.show._
+import cats.implicits._
 import cats.data.Validated._
 import cats.data.ValidatedNel
-import cats.syntax.cartesian._
 import io.circe.generic.semiauto._
 import io.circe.parser._
 import io.circe.Decoder
@@ -54,7 +53,7 @@ def liftName(value: String): ValidatedNel[String, Name] =
   Validation.min(3)(value) map Name
 
 def liftEmail(value: String): ValidatedNel[String, Email] =
-  Validation.email(value) *> Validation.min(5)(value) map Email
+  Validation.email(value) |+| Validation.min(5)(value) map Email
 
 implicit val decoderName: Decoder[Name] = Decoder[String].verify(liftName)
 implicit val decoderEmail: Decoder[Email] = Decoder[String].verify(liftEmail)

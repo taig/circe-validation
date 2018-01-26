@@ -2,7 +2,7 @@ package io.taig.circe.validation
 
 import cats.data.Validated._
 import cats.data.ValidatedNel
-import cats.syntax.cartesian._
+import cats.implicits._
 import io.circe.generic.JsonCodec
 import io.circe.{Decoder, Encoder}
 
@@ -22,24 +22,20 @@ object Name {
   def lift(value: String): ValidatedNel[String, Name] =
     Validation.min(3)(value) map apply
 
-  implicit val decoder: Decoder[Name] =
-    Decoder[String].verify(lift)
+  implicit val decoder: Decoder[Name] = Decoder[String].verify(lift)
 
-  implicit val encoder: Encoder[Name] =
-    Encoder[String].contramap(_.value)
+  implicit val encoder: Encoder[Name] = Encoder[String].contramap(_.value)
 }
 
 case class Email(value: String) extends AnyVal
 
 object Email {
   def lift(value: String): ValidatedNel[String, Email] =
-    Validation.email(value) *> Validation.min(5)(value) map apply
+    Validation.email(value) |+| Validation.min(5)(value) map apply
 
-  implicit val decoder: Decoder[Email] =
-    Decoder[String].verify(lift)
+  implicit val decoder: Decoder[Email] = Decoder[String].verify(lift)
 
-  implicit val encoder: Encoder[Email] =
-    Encoder[String].contramap(_.value)
+  implicit val encoder: Encoder[Email] = Encoder[String].contramap(_.value)
 }
 
 @JsonCodec
