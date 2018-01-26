@@ -9,7 +9,7 @@
 
 
 ```
-libraryDependencies += "io.taig" %% "circe-validation" % "0.1.0"
+libraryDependencies += "io.taig" %% "circe-validation" % "0.1.1"
 ```
 
 ## About
