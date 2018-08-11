@@ -13,8 +13,8 @@ lazy val root = project
     publishArtifact := false,
     publishLocal := {},
     libraryDependencies ++=
-      "io.circe" %% "circe-generic" % "0.9.1" % "tut" ::
-        "io.circe" %% "circe-parser" % "0.9.1" % "tut" ::
+      "io.circe" %% "circe-generic" % "0.9.3" % "tut" ::
+        "io.circe" %% "circe-parser" % "0.9.3" % "tut" ::
         Nil,
     tutSourceDirectory := baseDirectory.value / "tut",
     tutTargetDirectory := baseDirectory.value
@@ -27,8 +27,8 @@ lazy val circeValidation = crossProject
   .settings(Settings.common)
   .settings(
     libraryDependencies ++=
-      "io.circe" %%% "circe-core" % "0.9.1" ::
-        "io.circe" %%% "circe-generic" % "0.9.1" % "test" ::
+      "io.circe" %%% "circe-core" % "0.9.3" ::
+        "io.circe" %%% "circe-generic" % "0.9.3" % "test" ::
         "org.scalatest" %%% "scalatest" % "3.0.5" % "test" ::
         Nil,
     name := "circe-validation"
