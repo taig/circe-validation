@@ -6,4 +6,4 @@ addSbtPlugin( "io.taig" % "sbt-sonatype-houserules" % "1.2.0" )
 
 addSbtPlugin( "org.scala-js" % "sbt-scalajs" % "0.6.22" )
 
-addSbtPlugin( "org.tpolecat" % "tut-plugin" % "0.6.2" )
+addSbtPlugin( "org.tpolecat" % "tut-plugin" % "0.6.7" )
