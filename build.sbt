@@ -29,7 +29,7 @@ lazy val circeValidation = crossProject
     libraryDependencies ++=
       "io.circe" %%% "circe-core" % "0.9.1" ::
         "io.circe" %%% "circe-generic" % "0.9.1" % "test" ::
-        "org.scalatest" %%% "scalatest" % "3.0.4" % "test" ::
+        "org.scalatest" %%% "scalatest" % "3.0.5" % "test" ::
         Nil,
     name := "circe-validation"
   )
