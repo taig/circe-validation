@@ -37,3 +37,7 @@ lazy val circeValidation = crossProject
 lazy val circeValidationJVM = circeValidation.jvm
 
 lazy val circeValidationJS = circeValidation.js
+
+addCommandAlias("scalafmtAll", ";scalafmt;test:scalafmt;scalafmtSbt")
+addCommandAlias("scalafmtTestAll",
+                ";scalafmtCheck;test:scalafmtCheck;scalafmtSbtCheck")
