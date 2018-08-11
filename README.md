@@ -9,7 +9,7 @@
 
 
 ```
-libraryDependencies += "io.taig" %% "circe-validation" % "0.1.1"
+libraryDependencies += "io.taig" %% "circe-validation" % "0.1.2"
 ```
 
 ## About
@@ -65,8 +65,8 @@ val Invalid(accumulatedDecodingFailures) = Decoder[Person].accumulating.apply(cu
 
 ```scala
 decodingFailure.show
-// res9: String = DecodingFailure at .name: min 3
+// res2: String = DecodingFailure at .name: min 3
 
 accumulatedDecodingFailures.show
-// res10: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
+// res3: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
 ```
