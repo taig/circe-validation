@@ -3,10 +3,8 @@ import sbt.Keys._
 
 object Settings {
   val common: Seq[Def.Setting[_]] = Def.settings(
-    addCompilerPlugin(
-      "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
     crossScalaVersions ++=
-      "2.11.12" ::
+        "2.12.10" ::
         scalaVersion.value ::
         Nil,
     organization := "io.taig",
@@ -14,6 +12,6 @@ object Settings {
       "-feature" ::
         "-language:implicitConversions" ::
         Nil,
-    scalaVersion := "2.12.6"
+    scalaVersion := "2.13.1"
   )
 }

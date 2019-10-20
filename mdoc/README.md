@@ -2,14 +2,14 @@
 
 > Use cats Validated to create (Accumulating) circe Decoders
 
-```tut:invisible
+```scala mdoc:invisible
 import io.taig.circe.validation.Build._
 ```
 
 ## Installation
 
 
-```tut:evaluated
+```scala
 println {
     s"""
      |libraryDependencies += "$organization" %% "$normalizedName" % "$version"
@@ -26,7 +26,7 @@ This repository is primarily an experimental exploration of validation handling 
 
 ## Usage
 
-```tut:silent
+```scala mdoc:silent
 import cats.implicits._
 import cats.data.Validated._
 import cats.data.ValidatedNel
@@ -65,10 +65,10 @@ val cursor = json.hcursor
 
 // Default behavior is decoding without accumulation
 val Left(decodingFailure) = Decoder[Person].apply(cursor)
-val Invalid(accumulatedDecodingFailures) = Decoder[Person].accumulating.apply(cursor)
+val Invalid(accumulatedDecodingFailures) = Decoder[Person].decodeAccumulating(cursor)
 ```
 
-```tut:book
+```scala mdoc
 decodingFailure.show
 accumulatedDecodingFailures.show
 ```

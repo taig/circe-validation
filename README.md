@@ -2,22 +2,23 @@
 
 > Use cats Validated to create (Accumulating) circe Decoders
 
-
-
-
 ## Installation
 
 
-```
-libraryDependencies += "io.taig" %% "circe-validation" % "0.1.2"
+```scala
+println {
+    s"""
+     |libraryDependencies += "$organization" %% "$normalizedName" % "$version"
+     """.stripMargin.trim
+}
 ```
 
 ## About
 
 This repository is primarily an experimental exploration of validation handling with circe. My main concerns about the current implementation are:
 
- * `ValidatingDecoder` lives in `io.circe` to override the package scoped method `decodeAccumulating`
- * Validation failures cannot be distinguished from circe's `DecodingFailures`
+* `ValidatingDecoder` lives in `io.circe` to override the package scoped method `decodeAccumulating`
+* Validation failures cannot be distinguished from circe's `DecodingFailures`
 
 ## Usage
 
@@ -60,13 +61,13 @@ val cursor = json.hcursor
 
 // Default behavior is decoding without accumulation
 val Left(decodingFailure) = Decoder[Person].apply(cursor)
-val Invalid(accumulatedDecodingFailures) = Decoder[Person].accumulating.apply(cursor)
+val Invalid(accumulatedDecodingFailures) = Decoder[Person].decodeAccumulating(cursor)
 ```
 
 ```scala
 decodingFailure.show
-// res2: String = DecodingFailure at .name: min 3
-
+// res0: String = "DecodingFailure at .name: min 3"
 accumulatedDecodingFailures.show
-// res3: String = NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)
+// res1: String = "NonEmptyList(DecodingFailure at .name: min 3, DecodingFailure at .email: not an email, DecodingFailure at .email: min 5)"
 ```
+
