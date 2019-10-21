@@ -3,9 +3,11 @@ lazy val root = project
   .enablePlugins(BuildInfoPlugin, MdocPlugin)
   .settings(Settings.common)
   .settings(
-    buildInfoKeys := Seq[BuildInfoKey]("normalizedName" -> (normalizedName in circeValidationJVM).value,
-                                       organization,
-                                       version),
+    buildInfoKeys := Seq[BuildInfoKey](
+      "normalizedName" -> (normalizedName in circeValidationJVM).value,
+      organization,
+      version
+    ),
     buildInfoObject := "Build",
     buildInfoPackage := "io.taig.circe.validation",
     publish := {},
@@ -39,21 +41,29 @@ lazy val circeValidationJVM = circeValidation.jvm
 
 lazy val circeValidationJS = circeValidation.js
 
-addCommandAlias("scalafmtAll", ";scalafmt;test:scalafmt;scalafmtSbt")
-addCommandAlias("scalafmtTestAll", ";scalafmtCheck;test:scalafmtCheck;scalafmtSbtCheck")
-
 // https://stackoverflow.com/questions/54392266/using-macro-paradise-and-cross-compiling-with-2-12-2-13
-def compileWithMacroParadise: Command = Command.command("compileWithMacroParadise") { state =>
-  import Project._
-  val extractedState = extract(state)
-  val stateWithMacroParadise = CrossVersion.partialVersion(extractedState.get(scalaVersion)) match {
-    case Some((2, n)) if n >= 13 =>
-      extractedState.appendWithSession(Seq(Compile / scalacOptions += "-Ymacro-annotations"), state)
-    case _ =>
-      extractedState
-        .appendWithSession(addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full), state)
+def compileWithMacroParadise: Command =
+  Command.command("compileWithMacroParadise") { state =>
+    import Project._
+    val extractedState = extract(state)
+    val stateWithMacroParadise =
+      CrossVersion.partialVersion(extractedState.get(scalaVersion)) match {
+        case Some((2, n)) if n >= 13 =>
+          extractedState.appendWithSession(
+            Seq(Compile / scalacOptions += "-Ymacro-annotations"),
+            state
+          )
+        case _ =>
+          extractedState
+            .appendWithSession(
+              addCompilerPlugin(
+                "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
+              ),
+              state
+            )
+      }
+    val (stateAfterCompileWithMacroParadise, _) =
+      extract(stateWithMacroParadise)
+        .runTask(Compile / compile, stateWithMacroParadise)
+    stateAfterCompileWithMacroParadise
   }
-  val (stateAfterCompileWithMacroParadise, _) =
-    extract(stateWithMacroParadise).runTask(Compile / compile, stateWithMacroParadise)
-  stateAfterCompileWithMacroParadise
-}

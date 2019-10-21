@@ -13,7 +13,8 @@ import io.taig.circe.validation.Email._
 
 class ValidationTest extends FlatSpec with Matchers {
 
-  private val failuresToMessages: NonEmptyList[DecodingFailure] => NonEmptyList[String] = _.map(_.message)
+  private val failuresToMessages
+      : NonEmptyList[DecodingFailure] => NonEmptyList[String] = _.map(_.message)
 
   it should "not accumulate errors by default" in {
     val json = Email("asdf").asJson
@@ -24,7 +25,9 @@ class ValidationTest extends FlatSpec with Matchers {
     val json = Email("asdf").asJson
     Email.decoder
       .accumulating(json.hcursor)
-      .leftMap(failuresToMessages) shouldBe Invalid(NonEmptyList.of("not an email", "min 5"))
+      .leftMap(failuresToMessages) shouldBe Invalid(
+      NonEmptyList.of("not an email", "min 5")
+    )
   }
 
   it should "not accumulate errors in nested Decoders by default" in {
