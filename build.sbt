@@ -1,7 +1,6 @@
 lazy val root = project
   .in(file("."))
   .enablePlugins(BuildInfoPlugin, MdocPlugin)
-  .settings(Settings.common)
   .settings(
     buildInfoKeys := Seq[BuildInfoKey](
       "normalizedName" -> (normalizedName in circeValidationJVM).value,
@@ -27,7 +26,6 @@ lazy val root = project
 
 lazy val circeValidation = crossProject
   .in(file("."))
-  .settings(Settings.common)
   .settings(
     libraryDependencies ++=
       "io.circe" %%% "circe-core" % "0.12.2" ::
