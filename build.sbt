@@ -1,43 +1,49 @@
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
+val circeVersion = "0.12.2"
+val scalatestVersion = "3.0.8"
+
 lazy val root = project
   .in(file("."))
-  .enablePlugins(BuildInfoPlugin, TutPlugin)
-  .settings(Settings.common)
+  .settings(noPublishSettings)
   .settings(
-    buildInfoKeys := Seq[BuildInfoKey](
-      "normalizedName" -> (normalizedName in circeValidationJVM).value,
-      organization,
-      version),
-    buildInfoObject := "Build",
-    buildInfoPackage := "io.taig.circe.validation",
-    publish := {},
-    publishArtifact := false,
-    publishLocal := {},
-    libraryDependencies ++=
-      "io.circe" %% "circe-generic" % "0.9.3" % "tut" ::
-        "io.circe" %% "circe-parser" % "0.9.3" % "tut" ::
-        Nil,
-    tutSourceDirectory := baseDirectory.value / "tut",
-    tutTargetDirectory := baseDirectory.value
+    description := "Use cats Validated to create (Accumulating) circe Decoders"
   )
-  .dependsOn(circeValidationJVM)
-  .aggregate(circeValidationJVM, circeValidationJS)
+  .aggregate(core.jvm, core.js)
 
-lazy val circeValidation = crossProject
-  .in(file("."))
-  .settings(Settings.common)
+lazy val core = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .settings(sonatypePublishSettings)
   .settings(
     libraryDependencies ++=
-      "io.circe" %%% "circe-core" % "0.9.3" ::
-        "io.circe" %%% "circe-generic" % "0.9.3" % "test" ::
-        "org.scalatest" %%% "scalatest" % "3.0.5" % "test" ::
+      "io.circe" %%% "circe-core" % circeVersion ::
+        "io.circe" %%% "circe-generic" % circeVersion % "test" ::
+        "org.scalatest" %%% "scalatest" % scalatestVersion % "test" ::
         Nil,
-    name := "circe-validation"
+    name := "circe-validation",
+    normalizedName := name.value
   )
 
-lazy val circeValidationJVM = circeValidation.jvm
+lazy val website = project
+  .enablePlugins(MicrositesPlugin)
+  .settings(micrositeSettings)
+  .settings(
+    libraryDependencies ++=
+      "io.circe" %% "circe-generic" % circeVersion % Compile ::
+        "io.circe" %% "circe-parser" % circeVersion % Compile ::
+        Nil,
+    mdocVariables ++= {
+      val format: String => String =
+        version => s"`${version.replaceAll("\\.\\d+$", "")}`"
 
-lazy val circeValidationJS = circeValidation.js
-
-addCommandAlias("scalafmtAll", ";scalafmt;test:scalafmt;scalafmtSbt")
-addCommandAlias("scalafmtTestAll",
-                ";scalafmtCheck;test:scalafmtCheck;scalafmtSbtCheck")
+      Map(
+        "NAME" -> micrositeName.value,
+        "MODULE" -> (core.jvm / normalizedName).value,
+        "SCALA_VERSIONS" -> crossScalaVersions.value.map(format).mkString(", "),
+        "SCALAJS_VERSION" -> format(scalaJSVersion)
+      )
+    },
+    micrositeDescription := (root / description).value,
+    micrositeName := "circe Validation"
+  )
+  .dependsOn(core.jvm)

@@ -16,7 +16,8 @@ package object validation {
 
     private def liftDecodingFailures[B](
         lift: A => ValidatedNel[String, B],
-        cursor: HCursor): A => ValidatedNel[DecodingFailure, B] =
+        cursor: HCursor
+    ): A => ValidatedNel[DecodingFailure, B] =
       lift.andThen(_.leftMap(_.map(DecodingFailure(_, cursor.history))))
   }
 }

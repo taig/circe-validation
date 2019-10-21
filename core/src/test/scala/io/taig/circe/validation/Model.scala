@@ -3,7 +3,6 @@ package io.taig.circe.validation
 import cats.data.Validated._
 import cats.data.ValidatedNel
 import cats.implicits._
-import io.circe.generic.JsonCodec
 import io.circe.{Decoder, Encoder}
 
 object Validation {
@@ -38,5 +37,4 @@ object Email {
   implicit val encoder: Encoder[Email] = Encoder[String].contramap(_.value)
 }
 
-@JsonCodec
 case class Person(name: Name, email: Email)

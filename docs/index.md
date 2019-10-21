@@ -1,20 +1,20 @@
-# circe Validation
+---
+layout: home
+title:  "Home"
+section: "home"
+---
 
-> Use cats Validated to create (Accumulating) circe Decoders
+# @NAME@
 
-```tut:invisible
-import io.taig.circe.validation.Build._
-```
+[![GitLab CI](https://gitlab.com/taig-github/circe-validation/badges/master/build.svg?style=flat-square)](https://gitlab.com/taig-github/circe-validation/pipelines)
+[![Maven Central](https://img.shields.io/maven-central/v/io.taig/circe-validation_2.13.svg?style=flat-square)](https://search.maven.org/search?q=g:io.taig%20AND%20a:circe-validation)
+[![License](https://img.shields.io/github/license/taig/circe-validation?style=flat-square)](LICENSE)
 
 ## Installation
 
 
-```tut:evaluated
-println {
-    s"""
-     |libraryDependencies += "$organization" %% "$normalizedName" % "$version"
-     """.stripMargin.trim
-}
+```scala
+libraryDependencies += "@ORGANIZATION@" %%% "@MODULE@" % "@VERSION@"
 ```
 
 ## About
@@ -26,7 +26,7 @@ This repository is primarily an experimental exploration of validation handling 
 
 ## Usage
 
-```tut:silent
+```scala mdoc:silent
 import cats.implicits._
 import cats.data.Validated._
 import cats.data.ValidatedNel
@@ -65,10 +65,10 @@ val cursor = json.hcursor
 
 // Default behavior is decoding without accumulation
 val Left(decodingFailure) = Decoder[Person].apply(cursor)
-val Invalid(accumulatedDecodingFailures) = Decoder[Person].accumulating.apply(cursor)
+val Invalid(accumulatedDecodingFailures) = Decoder[Person].decodeAccumulating(cursor)
 ```
 
-```tut:book
+```scala mdoc
 decodingFailure.show
 accumulatedDecodingFailures.show
 ```
