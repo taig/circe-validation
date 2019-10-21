@@ -32,6 +32,12 @@ test-jvm:
       - coverage/
       - site/
 
+test-js:
+  stage: test
+  image: $CONTAINER_IMAGE:$CI_COMMIT_SHA
+  script:
+    - sbt -Dmode=strict +coreJS/test
+
 artifacts:
   stage: deploy
   image: $CONTAINER_IMAGE:$CI_COMMIT_SHA
