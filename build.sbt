@@ -1,41 +1,50 @@
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
+val circeVersion = "0.12.2"
+val scalatestVersion = "3.0.8"
+
 lazy val root = project
   .in(file("."))
   .settings(noPublishSettings)
   .settings(
     description := "Use cats Validated to create (Accumulating) circe Decoders"
   )
-  .aggregate(coreJVM, coreJS)
+  .aggregate(core.jvm, core.js)
 
-lazy val core = crossProject
+lazy val core = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
   .in(file("."))
   .settings(sonatypePublishSettings)
   .settings(
     libraryDependencies ++=
-      "io.circe" %%% "circe-core" % "0.12.2" ::
-        "io.circe" %%% "circe-generic" % "0.12.2" % "test" ::
-        "org.scalatest" %%% "scalatest" % "3.0.8" % "test" ::
+      "io.circe" %%% "circe-core" % circeVersion ::
+        "io.circe" %%% "circe-generic" % circeVersion % "test" ::
+        "org.scalatest" %%% "scalatest" % scalatestVersion % "test" ::
         Nil,
-    name := "circe-validation"
+    name := "circe-validation",
+    normalizedName := name.value
   )
-
-lazy val coreJVM = core.jvm
-
-lazy val coreJS = core.js
 
 lazy val website = project
   .enablePlugins(MicrositesPlugin)
   .settings(micrositeSettings)
   .settings(
+    libraryDependencies ++=
+      "io.circe" %% "circe-generic" % circeVersion % Compile ::
+        "io.circe" %% "circe-parser" % circeVersion % Compile ::
+        Nil,
     mdocVariables ++= {
       val format: String => String =
         version => s"`${version.replaceAll("\\.\\d+$", "")}`"
 
       Map(
+        "NAME" -> micrositeName.value,
         "MODULE" -> (core.jvm / normalizedName).value,
         "SCALA_VERSIONS" -> crossScalaVersions.value.map(format).mkString(", "),
         "SCALAJS_VERSION" -> format(scalaJSVersion)
       )
     },
-    micrositeDescription := (root / description).value
+    micrositeDescription := (root / description).value,
+    micrositeName := "circe Validation"
   )
-  .dependsOn(coreJVM)
+  .dependsOn(core.jvm)

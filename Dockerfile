@@ -2,6 +2,7 @@ FROM        openjdk:8u212-jdk-alpine3.9
 
 RUN         apk upgrade --update
 RUN         apk add --no-cache bash build-base git nodejs ruby-full ruby-dev
+RUN         gem install --no-document jekyll
 
 # Install sbt
 RUN         wget -O /usr/local/bin/sbt https://git.io/sbt && \

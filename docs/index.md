@@ -14,7 +14,7 @@ section: "home"
 
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %%% "@MODULE_CORE@" % "@VERSION@"
+libraryDependencies += "@ORGANIZATION@" %%% "@MODULE@" % "@VERSION@"
 ```
 
 ## About
