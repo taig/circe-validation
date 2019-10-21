@@ -23,7 +23,12 @@ test:
   stage: test
   image: $CONTAINER_IMAGE:$CI_COMMIT_SHA
   script:
-    - sbt -Dmode=strict +publishLocal
+    - sbt -Dmode=strict scalafmtCheckAll +publishLocal website/makeMicrosite
+    - mv website/target/site/ site/
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - site/
 
 artifacts:
   stage: deploy
@@ -33,3 +38,16 @@ artifacts:
     - tags
   script:
     - sbt publishAndRelease
+
+pages:
+  stage: deploy
+  image: $CONTAINER_IMAGE:$CI_COMMIT_SHA
+  only:
+    - tags
+  script:
+    - mv site/ public/
+  artifacts:
+    paths:
+      - public/
+  dependencies:
+    - test
