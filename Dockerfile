@@ -1,7 +1,7 @@
 FROM        openjdk:8u212-jdk-alpine3.9
 
 RUN         apk upgrade --update
-RUN         apk add --no-cache bash build-base git
+RUN         apk add --no-cache bash build-base git nodejs ruby-full ruby-dev
 
 # Install sbt
 RUN         wget -O /usr/local/bin/sbt https://git.io/sbt && \
@@ -27,7 +27,9 @@ RUN         cd ./cache/ && sbt -v +compile
 # Cache dependencies
 ADD         ./project ./cache/project/
 ADD         ./build.sbt ./cache/
-RUN         cd ./cache/ && sbt -v +compile
+RUN         mkdir -p ./cache/docs/
+RUN         echo "Lorem ipsum" > ./cache/docs/index.md
+RUN         cd ./cache/ && sbt -v ";+compile;website/makeMicrosite"
 
 # Clean cache
 RUN         rm -r ./cache/

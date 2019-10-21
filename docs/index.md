@@ -1,20 +1,20 @@
-# circe Validation
+---
+layout: home
+title:  "Home"
+section: "home"
+---
 
-> Use cats Validated to create (Accumulating) circe Decoders
+# @NAME@
 
-```scala mdoc:invisible
-import io.taig.circe.validation.Build._
-```
+[![GitLab CI](https://gitlab.com/taig-github/circe-validation/badges/master/build.svg?style=flat-square)](https://gitlab.com/taig-github/circe-validation/pipelines)
+[![Maven Central](https://img.shields.io/maven-central/v/io.taig/circe-validation_2.13.svg?style=flat-square)](https://search.maven.org/search?q=g:io.taig%20AND%20a:circe-validation)
+[![License](https://img.shields.io/github/license/taig/circe-validation?style=flat-square)](LICENSE)
 
 ## Installation
 
 
 ```scala
-println {
-    s"""
-     |libraryDependencies += "$organization" %% "$normalizedName" % "$version"
-     """.stripMargin.trim
-}
+libraryDependencies += "@ORGANIZATION@" %%% "@MODULE_CORE@" % "@VERSION@"
 ```
 
 ## About
