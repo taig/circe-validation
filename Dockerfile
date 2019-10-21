@@ -30,7 +30,7 @@ ADD         ./project ./cache/project/
 ADD         ./build.sbt ./cache/
 RUN         mkdir -p ./cache/docs/
 RUN         echo "Lorem ipsum" > ./cache/docs/index.md
-RUN         cd ./cache/ && sbt -v ";+compile;website/makeMicrosite"
+RUN         cd ./cache/ && sbt -v ";+test;website/makeMicrosite"
 
 # Clean cache
 RUN         rm -r ./cache/

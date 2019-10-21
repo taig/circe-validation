@@ -11,8 +11,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import io.taig.circe.validation.Name._
 import io.taig.circe.validation.Email._
 
-class ValidationTest extends FlatSpec with Matchers {
-
+final class ValidationTest extends FlatSpec with Matchers {
   private val failuresToMessages
       : NonEmptyList[DecodingFailure] => NonEmptyList[String] = _.map(_.message)
 
