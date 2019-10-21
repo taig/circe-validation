@@ -13,7 +13,6 @@ lazy val root = project
 
 lazy val core = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
-  .in(file("."))
   .settings(sonatypePublishSettings)
   .settings(
     libraryDependencies ++=
