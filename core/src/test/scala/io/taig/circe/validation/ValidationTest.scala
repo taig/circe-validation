@@ -24,7 +24,7 @@ class ValidationTest extends FlatSpec with Matchers {
   it should "accumulate errors when using AccumulatingDecoders" in {
     val json = Email("asdf").asJson
     Email.decoder
-      .accumulating(json.hcursor)
+      .decodeAccumulating(json.hcursor)
       .leftMap(failuresToMessages) shouldBe Invalid(
       NonEmptyList.of("not an email", "min 5")
     )
@@ -38,7 +38,7 @@ class ValidationTest extends FlatSpec with Matchers {
   it should "accumulate errors in nested Decoders" in {
     val json = Person(Name(""), Email("asdf")).asJson
     Decoder[Person]
-      .accumulating(json.hcursor)
+      .decodeAccumulating(json.hcursor)
       .leftMap(failuresToMessages) shouldBe Invalid(
       NonEmptyList.of("min 3", "not an email", "min 5")
     )
