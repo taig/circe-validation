@@ -3,6 +3,8 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 val circeVersion = "0.12.2"
 val scalatestVersion = "3.0.8"
 
+ThisBuild / githubProject := "circe-validation"
+
 lazy val root = project
   .in(file("."))
   .settings(noPublishSettings)
