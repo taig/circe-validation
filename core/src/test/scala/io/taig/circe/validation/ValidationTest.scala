@@ -6,12 +6,12 @@ import cats.data.Validated.Invalid
 import io.circe.{Decoder, DecodingFailure}
 import io.circe.syntax._
 import io.circe.generic.auto._
-import org.scalatest.{FlatSpec, Matchers}
-
 import io.taig.circe.validation.Name._
 import io.taig.circe.validation.Email._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-final class ValidationTest extends FlatSpec with Matchers {
+final class ValidationTest extends AnyFlatSpec with Matchers {
   private val failuresToMessages
       : NonEmptyList[DecodingFailure] => NonEmptyList[String] = _.map(_.message)
 
