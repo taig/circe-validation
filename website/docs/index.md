@@ -46,8 +46,8 @@ object Validation {
     else valid(value)
 }
 
-case class Name(value: String) extends AnyVal
-case class Email(value: String) extends AnyVal
+case class Name(value: String)
+case class Email(value: String)
 case class Person(name: Name, email: Email)
 
 def liftName(value: String): ValidatedNel[String, Name] =

@@ -28,8 +28,8 @@ RUN         cd ./cache/ && sbt -v +compile
 # Cache dependencies
 ADD         ./project ./cache/project/
 ADD         ./build.sbt ./cache/
-RUN         mkdir -p ./cache/docs/
-RUN         echo "Lorem ipsum" > ./cache/docs/index.md
+RUN         mkdir -p ./cache/website/docs/
+RUN         echo "Lorem ipsum" > ./cache/website/docs/index.md
 RUN         cd ./cache/ && sbt -v ";+test;website/makeMicrosite"
 
 # Clean cache
