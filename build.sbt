@@ -1,7 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-val circeVersion = "0.12.2"
-val scalatestVersion = "3.0.8"
+val CirceVersion = "0.13.0"
+val ScalatestVersion = "3.0.8"
 
 ThisBuild / githubProject := "circe-validation"
 
@@ -18,9 +18,9 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .settings(sonatypePublishSettings)
   .settings(
     libraryDependencies ++=
-      "io.circe" %%% "circe-core" % circeVersion ::
-        "io.circe" %%% "circe-generic" % circeVersion % "test" ::
-        "org.scalatest" %%% "scalatest" % scalatestVersion % "test" ::
+      "io.circe" %%% "circe-core" % CirceVersion ::
+        "io.circe" %%% "circe-generic" % CirceVersion % "test" ::
+        "org.scalatest" %%% "scalatest" % ScalatestVersion % "test" ::
         Nil,
     name := "circe-validation",
     normalizedName := name.value
@@ -31,8 +31,8 @@ lazy val website = project
   .settings(micrositeSettings)
   .settings(
     libraryDependencies ++=
-      "io.circe" %% "circe-generic" % circeVersion % Compile ::
-        "io.circe" %% "circe-parser" % circeVersion % Compile ::
+      "io.circe" %% "circe-generic" % CirceVersion % Compile ::
+        "io.circe" %% "circe-parser" % CirceVersion % Compile ::
         Nil,
     mdocVariables ++= {
       val format: String => String =
