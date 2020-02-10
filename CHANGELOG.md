@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.1
+
+_2020-02-10_
+
+ * Upgrade to circe 0.13.0
+ * Upgrade to sbt-scalajs 0.6.32
+ * Upgrade to sbt-houserules 0.1.9
+ * Upgrade to scala 2.13.1
+ * Upgrade to scalatest 3.1.0
+ * Upgrade to sbt 1.3.8
+
 ## 0.2.0
 
 _2019-10-21_
