@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4
+
+_2020-03-26_
+
+`0.2.3` could not be released due to a misconfiguration, use `0.2.4` instead.
+
 ## 0.2.3
 
 _2020-03-26_
