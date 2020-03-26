@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.3
+
+_2020-03-26_
+
+ * Upgrade to sbt-scalajs 1.0.1
+ * Upgrade to sbt-houserules 0.1.10
+ * Upgrade to scalatest 3.1.1
+
 ## 0.2.2
 
 _2020-02-10_
