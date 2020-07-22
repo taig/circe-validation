@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0
+
+_2020-07-22_
+
+ * Add `ValidatingDecoder.apply` and `.lift` as a preferred way to instantiate `ValidatingDecoder`
+ * Upgrade to scalatest 3.2.0
+ * Upgrade to sbt-scalajs 1.1.1
+ * Upgrade to sbt-houserules 0.2.3
+ * Upgrade to scala 2.12.12
+ * Upgrade to scala 2.13.3
+
 ## 0.2.4
 
 _2020-03-26_
