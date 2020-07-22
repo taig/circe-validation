@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1
+
+_2020-07-22_
+
+ * Fix `ValidatingDecoder.apply` builder
+ * Upgrade to sbt 1.3.13
+
 ## 0.3.0
 
 _2020-07-22_
