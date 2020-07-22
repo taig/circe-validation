@@ -11,8 +11,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 final class ValidationTest extends AnyFlatSpec with Matchers {
-  private val failuresToMessages
-      : NonEmptyList[DecodingFailure] => NonEmptyList[String] = _.map(_.message)
+  private val failuresToMessages: NonEmptyList[DecodingFailure] => NonEmptyList[String] = _.map(_.message)
 
   it should "not accumulate errors by default" in {
     val json = Email("asdf").asJson
