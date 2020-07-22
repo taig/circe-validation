@@ -1,7 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 val CirceVersion = "0.13.0"
-val ScalatestVersion = "3.1.1"
+val ScalatestVersion = "3.2.0"
 
 ThisBuild / githubProject := "circe-validation"
 
@@ -20,7 +20,8 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies ++=
       "io.circe" %%% "circe-core" % CirceVersion ::
         "io.circe" %%% "circe-generic" % CirceVersion % "test" ::
-        "org.scalatest" %%% "scalatest" % ScalatestVersion % "test" ::
+        "org.scalatest" %%% "scalatest-flatspec" % ScalatestVersion % "test" ::
+        "org.scalatest" %%% "scalatest-shouldmatchers" % ScalatestVersion % "test" ::
         Nil,
     name := "circe-validation",
     normalizedName := name.value

@@ -6,7 +6,6 @@ import cats.data.Validated.Invalid
 import io.circe.{Decoder, DecodingFailure}
 import io.circe.syntax._
 import io.circe.generic.auto._
-import io.taig.circe.validation.Name._
 import io.taig.circe.validation.Email._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
