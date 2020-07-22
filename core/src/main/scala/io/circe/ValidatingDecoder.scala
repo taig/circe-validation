@@ -30,9 +30,10 @@ object ValidatingDecoder {
       cursor: HCursor
   ): A => ValidatedNel[DecodingFailure, B] = validate.andThen(_.leftMap(_.map(DecodingFailure(_, cursor.history))))
 
-  def apply[A](implicit decoder: Decoder[A]): ApplyBuilder[A] = new ApplyBuilder[A](decoder)
+  def apply[A]: ApplyBuilder[A] = new ApplyBuilder[A]
 
-  final class ApplyBuilder[A](val decoder: Decoder[A]) extends AnyVal {
-    def apply[B](validate: A => ValidatedNel[String, B]): ValidatingDecoder[B] = lift(decoder)(validate)
+  final class ApplyBuilder[A] {
+    def apply[B](validate: A => ValidatedNel[String, B])(implicit decoder: Decoder[A]): ValidatingDecoder[B] =
+      lift(decoder)(validate)
   }
 }

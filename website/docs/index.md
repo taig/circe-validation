@@ -34,7 +34,7 @@ import cats.data.ValidatedNel
 import io.circe.generic.semiauto._
 import io.circe.parser._
 import io.circe.Decoder
-import io.taig.circe.validation._
+import io.circe.ValidatingDecoder
 
 object Validation {
   def email(value: String): ValidatedNel[String, String] =
@@ -56,8 +56,8 @@ def liftName(value: String): ValidatedNel[String, Name] =
 def liftEmail(value: String): ValidatedNel[String, Email] =
   Validation.email(value) |+| Validation.min(5)(value) map Email
 
-implicit val decoderName: Decoder[Name] = Decoder[String].verify(liftName)
-implicit val decoderEmail: Decoder[Email] = Decoder[String].verify(liftEmail)
+implicit val decoderName: Decoder[Name] = ValidatingDecoder[String](liftName)
+implicit val decoderEmail: Decoder[Email] = ValidatingDecoder[String](liftEmail)
 implicit val decoderPerson: Decoder[Person] = deriveDecoder
 
 val text = """{ "name":"Qt", "email":"foo" }"""
