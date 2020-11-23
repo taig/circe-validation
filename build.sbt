@@ -5,13 +5,7 @@ val ScalatestVersion = "3.2.0"
 
 ThisBuild / githubProject := "circe-validation"
 
-lazy val root = project
-  .in(file("."))
-  .settings(noPublishSettings)
-  .settings(
-    description := "Use cats Validated to create (Accumulating) circe Decoders"
-  )
-  .aggregate(core.jvm, core.js)
+noPublishSettings
 
 lazy val core = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
@@ -46,7 +40,7 @@ lazy val website = project
         "SCALAJS_VERSION" -> format(scalaJSVersion)
       )
     },
-    micrositeDescription := (root / description).value,
+    micrositeDescription := "Use cats Validated to create (Accumulating) circe Decoders",
     micrositeName := "circe Validation"
   )
   .dependsOn(core.jvm)
