@@ -1,7 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 val CirceVersion = "0.13.0"
-val ScalatestVersion = "3.2.0"
+val ScalatestVersion = "3.2.3"
 
 ThisBuild / githubProject := "circe-validation"
 
